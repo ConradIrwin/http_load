@@ -930,6 +930,7 @@ handle_connect( int cnum, struct timeval* nowP, int double_check )
 	    switch ( errno )
 		{
 		case EISCONN:
+                case EALREADY:
 		/* Ok! */
 		break;
 		case EINVAL:
