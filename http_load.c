@@ -946,9 +946,9 @@ handle_connect( int cnum, struct timeval* nowP, int double_check )
 		close_connection( cnum );
 		return;
 		default:
-		perror( urls[url_num].url_str );
-		close_connection( cnum );
-		return;
+                    (void) printf("-1\t-1\t%s\t(%s)\n", urls[url_num].url_str, strerror( errno ));
+                    close_connection( cnum );
+                    return;
 		}
 	    }
 	}
@@ -1678,6 +1678,7 @@ close_connection( int cnum )
 	max_response_usecs = max( max_response_usecs, response_usecs );
 	min_response_usecs = min( min_response_usecs, response_usecs );
 	++responses_completed;
+        printf("%d\t%lld\t%s\n", connections[cnum].http_status, response_usecs, urls[connections[cnum].url_num].url_str);
 	}
     if ( connections[cnum].http_status >= 0 && connections[cnum].http_status <= 999 )
 	++http_status_counts[connections[cnum].http_status];
