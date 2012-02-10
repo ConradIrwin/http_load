@@ -58,7 +58,7 @@
 #define min(a,b) ((a)<=(b)?(a):(b))
 
 /* How long a connection can stay idle before we give up on it. */
-#define IDLE_SECS 60
+#define IDLE_SECS 300
 
 /* Default max bytes/second in throttle mode. */
 #define THROTTLE 3360
