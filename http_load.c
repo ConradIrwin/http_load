@@ -547,7 +547,7 @@ read_url_file( char* url_file )
 	exit( 1 );
 	}
 
-    max_urls = 100;
+    max_urls = 100000;
     urls = (url*) malloc_check( max_urls * sizeof(url) );
     num_urls = 0;
     while ( fgets( line, sizeof(line), fp ) != (char*) 0 )
