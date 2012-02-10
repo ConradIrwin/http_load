@@ -163,7 +163,7 @@ static int http_status_counts[1000];	/* room for all three-digit statuses */
 #define HDST_CONTENT_LENGTH_COLON_WHITESPACE_NUM 36
 
 static char* argv0;
-static int do_checksum, do_throttle, do_verbose, do_jitter, do_proxy;
+static int do_checksum, do_throttle, do_verbose, do_jitter, do_proxy, do_bytesize;
 static float throttle;
 static int idle_secs;
 static char* proxy_hostname;
@@ -251,7 +251,7 @@ main( int argc, char** argv )
     /* Parse args. */
     argv0 = argv[0];
     argn = 1;
-    do_checksum = do_throttle = do_verbose = do_jitter = do_proxy = 0;
+    do_checksum = do_throttle = do_verbose = do_jitter = do_proxy = do_bytesize = 0;
     throttle = THROTTLE;
     sip_file = (char*) 0;
     idle_secs = IDLE_SECS;
@@ -261,6 +261,8 @@ main( int argc, char** argv )
 	{
 	if ( strncmp( argv[argn], "-checksum", strlen( argv[argn] ) ) == 0 )
 	    do_checksum = 1;
+        else if ( strncmp( argv[argn], "-bytesize", strlen( argv[argn] ) ) == 0 )
+            do_bytesize = 1;
 	else if ( strncmp( argv[argn], "-throttle", strlen( argv[argn] ) ) == 0 )
 	    do_throttle = 1;
 	else if ( strncmp( argv[argn], "-Throttle", strlen( argv[argn] ) ) == 0 && argn + 1 < argc )
@@ -507,7 +509,7 @@ static void
 usage( void )
     {
     (void) fprintf( stderr,
-	"usage:  %s [-checksum] [-throttle] [-proxy host:port] [-verbose] [-timeout secs] [-sip sip_file]\n", argv0 );
+    "usage:  %s [-checksum|-bytesize] [-throttle] [-proxy host:port] [-verbose] [-timeout secs] [-sip sip_file]\n", argv0 );
 #ifdef USE_SSL
     (void) fprintf( stderr,
 	"            [-cipher str]\n" );
@@ -1701,7 +1703,7 @@ close_connection( int cnum )
 		}
 	    }
 	}
-    else
+    else if ( do_bytesize )
 	{
 	if ( ! urls[url_num].got_bytes )
 	    {
