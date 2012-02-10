@@ -10,9 +10,10 @@
 # tree with your OpenSSL installation - depending on how you installed it,
 # it may be in /usr/local instead of /usr/local/ssl.
 #SSL_TREE =	/usr/local/ssl
-#SSL_DEFS =	-DUSE_SSL
+SSL_DEFS =	-DUSE_SSL
 #SSL_INC =	-I$(SSL_TREE)/include
 #SSL_LIBS =	-L$(SSL_TREE)/lib -lssl -lcrypto
+SSL_LIBS =	-lssl -lcrypto
 
 
 BINDIR =	/usr/local/bin

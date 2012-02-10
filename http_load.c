@@ -54,6 +54,8 @@
 #define USE_IPV6
 #endif
 
+#undef USE_IPV6
+
 #define max(a,b) ((a)>=(b)?(a):(b))
 #define min(a,b) ((a)<=(b)?(a):(b))
 
@@ -622,6 +624,22 @@ read_url_file( char* url_file )
 	}
     }
 
+static struct hostent *profiles_he = NULL;
+
+static struct hostent *
+quick_gethostbyname(const char *str) {
+    if (strcmp(str, "example.com") == 0) {
+
+        if (!profiles_he) {
+            profiles_he = gethostbyname(str);
+        }
+        return profiles_he;
+    } else {
+        fprintf( stderr, "Oops, you're not using example.com...");
+        exit(88);
+    }
+}
+
 
 static void
 lookup_address( int url_num )
@@ -730,7 +748,7 @@ lookup_address( int url_num )
 
 #else /* USE_IPV6 */
 
-    he = gethostbyname( hostname );
+    he = quick_gethostbyname( hostname );
     if ( he == (struct hostent*) 0 )
 	{
 	(void) fprintf( stderr, "%s: unknown host - %s\n", argv0, hostname );
